@@ -1,0 +1,91 @@
+CREATE DATABASE Bai_Tap2;
+USE Bai_Tap2;
+
+CREATE TABLE customers(
+    customerNumber INT NOT NULL PRIMARY KEY ,
+    customerName VARCHAR(50) NOT NULL ,
+    contactLastName VARCHAR(50) NOT NULL ,
+    contactFirstName VARCHAR(50) NOT NULL ,
+    phone VARCHAR(50) NOT NULL ,
+    addressLine1 VARCHAR(50) NOT NULL ,
+    addressLine2 VARCHAR(50) ,
+    city VARCHAR(50) NOT NULL ,
+    state VARCHAR(50) NOT NULL ,
+    postalCode VARCHAR(15) NOT NULL ,
+    country VARCHAR(50) NOT NULL ,
+    creditLimit VARCHAR(50) NOT NULL,
+    saleRepEmployeeNumber INT NOT NULL ,
+    FOREIGN KEY (saleRepEmployeeNumber) REFERENCES employees(employeeNumber)
+);
+
+CREATE TABLE orders(
+    orderNumber INT NOT NULL PRIMARY KEY ,
+    orderDate DATE NOT NULL ,
+    requiredDate DATE NOT NULL ,
+    shippedDate DATE,
+    status VARCHAR(15) NOT NULL ,
+    comments TEXT NOT NULL ,
+    quantityOrdered INT NOT NULL ,
+    priceEach DOUBLE NOT NULL,
+    customerNumber INT NOT NULL ,
+    FOREIGN KEY (customerNumber) REFERENCES customers(customerNumber)
+);
+
+
+
+CREATE TABLE payments(
+    customerNumber INT NOT NULL ,
+    checkNumber VARCHAR(50) NOT NULL ,
+    paymentDate DATE NOT NULL ,
+    amount DOUBLE NOT NULL,
+    FOREIGN KEY (customerNumber) REFERENCES customers (customerNumber)
+);
+
+CREATE TABLE products(
+    productCode VARCHAR(15) NOT NULL PRIMARY KEY ,
+    productName VARCHAR(70) NOT NULL ,
+    productScale VARCHAR(10) NOT NULL ,
+    productVendor VARCHAR(50) NOT NULL ,
+    productDescription TEXT NOT NULL ,
+    quantityInStock INT NOT NULL ,
+    buyPrice DOUBLE NOT NULL ,
+    MSRP DOUBLE NOT NULL,
+    productLine VARCHAR(50) NOT NULL ,
+    FOREIGN KEY (productLine) REFERENCES productlines(productLine)
+);
+
+CREATE TABLE orderDetails(
+    productCode VARCHAR(15) NOT NULL ,
+    orderNumber INT NOT NULL ,
+    FOREIGN KEY (productCode) REFERENCES products (productCode),
+    FOREIGN KEY (orderNumber) REFERENCES orders (orderNumber)
+);
+
+CREATE TABLE productlines(
+    productLine VARCHAR(50) NOT NULL PRIMARY KEY ,
+    textDescription TEXT NOT NULL ,
+    image VARCHAR(255)
+);
+
+CREATE TABLE employees(
+    employeeNumber INT NOT NULL PRIMARY KEY ,
+    saleEmployeeNumber INT NOT NULL ,
+    lastName VARCHAR(50) NOT NULL ,
+    firstName VARCHAR(50) NOT NULL ,
+    email VARCHAR(100) NOT NULL ,
+    jobTitle VARCHAR(50) NOT NULL,
+    reportTo INT,
+    officeCode VARCHAR(10) NOT NULL ,
+    FOREIGN KEY (officeCode) REFERENCES offices (officeCode)
+);
+
+CREATE TABLE offices(
+    officeCode VARCHAR(10) NOT NULL PRIMARY KEY ,
+    city VARCHAR(50) NOT NULL ,
+    phone VARCHAR(50) NOT NULL ,
+    addressLine1 VARCHAR(50) NOT NULL ,
+    addressLine2 VARCHAR(50) ,
+    state VARCHAR(50) ,
+    country VARCHAR(50) NOT NULL ,
+    postalCode VARCHAR(50) NOT NULL
+);

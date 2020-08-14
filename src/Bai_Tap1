@@ -1,0 +1,27 @@
+create database Bai_Tap1;
+use Bai_Tap1;
+
+create table customers(
+    customer_number int PRIMARY KEY ,
+    fullname VARCHAR(50),
+    address VARCHAR(255),
+    emai VARCHAR(255),
+    phone int (11)
+);
+
+create table accounts(
+    account_number int PRIMARY KEY ,
+    customer_number int,
+    account_type VARCHAR(20),
+    crdate date,
+    balance double,
+    FOREIGN KEY (customer_number) REFERENCES customers(customer_number)
+);
+
+CREATE TABLE transactions(
+    tran_number int PRIMARY KEY ,
+    account_number int,
+    tran_date date,
+    amounts double,
+    FOREIGN KEY (account_number) REFERENCES accounts(account_number)
+);
